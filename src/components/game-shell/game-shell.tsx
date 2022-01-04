@@ -36,6 +36,7 @@ export function GameShell({ nextGame }: GameShellProps) {
   );
   const snakeGrowth = useRef(0);
   const availableCoordinatesForApple = useRef<Coordinate[]>();
+  const touchStart = useRef<Coordinate>();
 
   const getAvailableCoordinatesForApple = useCallback((): Coordinate[] => {
     const availableCoordinates = [];
@@ -54,7 +55,7 @@ export function GameShell({ nextGame }: GameShellProps) {
     availableCoordinatesForApple.current = getAvailableCoordinatesForApple();
   }, [getAvailableCoordinatesForApple]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setAvailableCoordinatesForApple();
   }, [setAvailableCoordinatesForApple]);
 
@@ -66,13 +67,34 @@ export function GameShell({ nextGame }: GameShellProps) {
   }, [nextGame]);
 
   useEffect(() => {
-    document.onkeydown = (e) => {
-      const nextDirection = keyToDirection[e.key];
+    function handleMoveInput(nextDirection: Direction) {
       if (canGoToNextDirection(direction.current, nextDirection)) {
         moveQueue.current.push(nextDirection);
         direction.current = nextDirection;
       }
+    }
+    document.onkeydown = (e) => {
+      const nextDirection = keyToDirection[e.key];
+      handleMoveInput(nextDirection);
     };
+    document.ontouchstart = (e) => {
+      const { clientX, clientY } = e.touches[0];
+      touchStart.current = [clientX, clientY];
+    };
+    document.ontouchend = (e) => {
+      if (!touchStart.current) return;
+      console.log(e);
+      const { clientX, clientY } = e.changedTouches[0];
+      const [x, y] = touchStart.current;
+      const [dx, dy] = [clientX - x, clientY - y];
+      if (dx > 5 && dx > dy) handleMoveInput(Direction.right);
+      if (dx < -5 && dx < dy) handleMoveInput(Direction.left);
+      if (dy > 5 && dy > dx) handleMoveInput(Direction.down);
+      if (dy < 5 && dy < dx) handleMoveInput(Direction.up);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!gameLoop.current) {
       gameLoop.current = setInterval(() => {
         const nextDirection = moveQueue.current.shift() ?? direction.current;
