@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo } from "react";
-import { hashXY } from "../../utils";
+import { getBoardTile } from "../../utils";
 import { BoardTile } from "../board-tile/board-tile";
 
 interface BoardProps {
@@ -9,7 +9,7 @@ export function Board({ size }: BoardProps) {
   const board = useMemo(() => {
     return Array.from({ length: size }, (_, y) =>
       Array.from({ length: size }, (_, x) => (
-        <BoardTile key={hashXY(x, y)} x={x} y={y} />
+        <BoardTile key={getBoardTile([x, y])} coordinate={[x, y]} />
       ))
     );
   }, [size]);

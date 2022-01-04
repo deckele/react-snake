@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { Coordinate } from "../../types";
+import { getBoardTile } from "../../utils";
 
 interface AppleProps {
-  availableTiles: string[];
+  availableTiles: Coordinate[];
 }
 export function Apple({ availableTiles }: AppleProps) {
-  const [chosenTile, setChosenTile] = useState<string | null>(null);
+  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
   useEffect(() => {
-    const chosenTile =
+    const chosenCoordinate =
       availableTiles[Math.floor(Math.random() * availableTiles.length)];
-    setChosenTile(chosenTile);
+    setCoordinate(chosenCoordinate);
   }, [availableTiles]);
   const container =
-    chosenTile && document.getElementById(`board-${chosenTile}`);
+    coordinate && document.getElementById(getBoardTile(coordinate));
   return container ? createPortal(<div>apple</div>, container) : null;
 }

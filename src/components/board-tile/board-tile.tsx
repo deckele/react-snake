@@ -1,9 +1,9 @@
-import { hashXY } from "../../utils";
+import { Coordinate } from "../../types";
+import { getBoardTile } from "../../utils";
 
 interface BoardTileProps {
-  x: number;
-  y: number;
+  coordinate: Coordinate;
 }
-export function BoardTile({ x, y }: BoardTileProps) {
-  return <div id={`board-${hashXY(x, y)}`} className="bg-blue-600 relative" />;
+export function BoardTile({ coordinate }: BoardTileProps) {
+  return <div id={getBoardTile(coordinate)} className="bg-blue-600 relative" />;
 }

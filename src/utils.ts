@@ -51,14 +51,14 @@ export function canGoToNextDirection(
 ): boolean {
   return currentToNextValidDirection[currentDirection][nextDirection];
 }
-export function hashXY(x: number, y: number) {
+export function hashXY([x, y]: Coordinate) {
   return `x${x}y${y}`;
 }
 
-export function getSnakeTile(x: number, y: number) {
-  return `snake-${hashXY(x, y)}`;
+export function getSnakeTile(coordinate: Coordinate) {
+  return `snake-${hashXY(coordinate)}`;
 }
 
-export function getBoardTile(x: number, y: number) {
-  return `board-${hashXY(x, y)}`;
+export function getBoardTile(coordinate: Coordinate) {
+  return `board-${hashXY(coordinate)}`;
 }

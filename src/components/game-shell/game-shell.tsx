@@ -9,9 +9,9 @@ import { Apple } from "../apple/apple";
 
 const STARTING_Y = Math.floor((config.boardSize - 1) / 2);
 const SNAKE_INITIAL_NODES = [
-  new SnakeNode(0, STARTING_Y),
-  new SnakeNode(1, STARTING_Y),
-  new SnakeNode(2, STARTING_Y),
+  new SnakeNode([0, STARTING_Y]),
+  new SnakeNode([1, STARTING_Y]),
+  new SnakeNode([2, STARTING_Y]),
 ];
 export function GameShell() {
   const forceUpdate = useForceUpdate();
@@ -40,7 +40,7 @@ export function GameShell() {
     if (!gameLoop.current) {
       gameLoop.current = setInterval(() => {
         const nextDirection = moveQueue.current.shift() ?? direction.current;
-        let { x, y } = nextSnakeNode.current;
+        let [x, y] = nextSnakeNode.current.coordiate;
         switch (nextDirection) {
           case Direction.up:
             y--;
@@ -64,8 +64,8 @@ export function GameShell() {
           handleCollision();
           return;
         }
-        const newNode = new SnakeNode(x, y);
-        snake.current?.addToHead(new SnakeNode(x, y));
+        const newNode = new SnakeNode([x, y]);
+        snake.current?.addToHead(new SnakeNode([x, y]));
         if (snakeGrowth.current === 0) {
           snake.current?.popTail();
         } else {

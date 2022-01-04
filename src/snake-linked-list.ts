@@ -1,9 +1,10 @@
+import { Coordinate } from "./types";
 import { hashXY } from "./utils";
 
 export class SnakeNode {
-  constructor(public x: number, public y: number, public next?: SnakeNode) {}
+  constructor(public coordiate: Coordinate, public next?: SnakeNode) {}
   toString() {
-    return hashXY(this.x, this.y);
+    return hashXY(this.coordiate);
   }
 }
 
