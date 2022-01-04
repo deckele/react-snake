@@ -72,6 +72,9 @@ export function GameShell({ nextGame }: GameShellProps) {
         direction.current = nextDirection;
       }
     }
+    function preventDefault(e: Event) {
+      e.preventDefault();
+    }
     document.onkeydown = (e) => {
       const nextDirection = keyToDirection[e.key];
       handleMoveInput(nextDirection);
@@ -90,6 +93,8 @@ export function GameShell({ nextGame }: GameShellProps) {
       if (dy > 5 && dy > dx) handleMoveInput(Direction.down);
       if (dy < 5 && dy < dx) handleMoveInput(Direction.up);
     };
+    document.addEventListener("touchmove", preventDefault, { passive: false });
+    return () => document.removeEventListener("touchmove", preventDefault);
   }, []);
 
   useEffect(() => {
