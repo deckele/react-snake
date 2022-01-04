@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { SnakeLinkedList, SnakeNode } from "../../snake-linked-list";
 import { Board } from "../board/board";
 import { Snake } from "../snake/snake";
@@ -55,13 +55,12 @@ export function GameShell({ nextGame }: GameShellProps) {
     availableCoordinatesForApple.current = getAvailableCoordinatesForApple();
   }, [getAvailableCoordinatesForApple]);
 
-  useEffect(() => {
-    setAvailableCoordinatesForApple();
-  }, [setAvailableCoordinatesForApple]);
-
   const handleCollision = useCallback(() => {
     gameLoop.current && clearInterval(gameLoop.current);
     document.onkeydown = () => {
+      nextGame();
+    };
+    document.ontouchstart = () => {
       nextGame();
     };
   }, [nextGame]);
@@ -83,7 +82,6 @@ export function GameShell({ nextGame }: GameShellProps) {
     };
     document.ontouchend = (e) => {
       if (!touchStart.current) return;
-      console.log(e);
       const { clientX, clientY } = e.changedTouches[0];
       const [x, y] = touchStart.current;
       const [dx, dy] = [clientX - x, clientY - y];
@@ -97,6 +95,8 @@ export function GameShell({ nextGame }: GameShellProps) {
   useEffect(() => {
     if (!gameLoop.current) {
       gameLoop.current = setInterval(() => {
+        if (!availableCoordinatesForApple.current)
+          setAvailableCoordinatesForApple();
         const nextDirection = moveQueue.current.shift() ?? direction.current;
         let [x, y] = nextSnakeNode.current.coordiate;
         switch (nextDirection) {
