@@ -62,3 +62,10 @@ export function getSnakeTile(coordinate: Coordinate) {
 export function getBoardTile(coordinate: Coordinate) {
   return `board-${hashXY(coordinate)}`;
 }
+
+export function areCoordinatesEqual(
+  [x1, y1]: Coordinate,
+  [x2, y2]: Coordinate
+): boolean {
+  return x1 === x2 && y1 === y2;
+}

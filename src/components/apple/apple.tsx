@@ -1,19 +1,33 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { createPortal } from "react-dom";
 import { Coordinate } from "../../types";
 import { getBoardTile } from "../../utils";
 
 interface AppleProps {
-  availableTiles: Coordinate[];
+  availableCoordinates?: Coordinate[];
 }
-export function Apple({ availableTiles }: AppleProps) {
-  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
-  useEffect(() => {
-    const chosenCoordinate =
-      availableTiles[Math.floor(Math.random() * availableTiles.length)];
-    setCoordinate(chosenCoordinate);
-  }, [availableTiles]);
-  const container =
-    coordinate && document.getElementById(getBoardTile(coordinate));
-  return container ? createPortal(<div>apple</div>, container) : null;
-}
+export const Apple = forwardRef<Coordinate | null, AppleProps>(
+  ({ availableCoordinates = [] }: AppleProps, ref) => {
+    const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
+    useEffect(() => {
+      const chosenCoordinate =
+        availableCoordinates[
+          Math.floor(Math.random() * availableCoordinates.length)
+        ];
+      setCoordinate(chosenCoordinate);
+    }, [availableCoordinates]);
+    useImperativeHandle<Coordinate | null, Coordinate | null>(
+      ref,
+      () => coordinate,
+      [coordinate]
+    );
+    const container =
+      coordinate && document.getElementById(getBoardTile(coordinate));
+    return container
+      ? createPortal(
+          <div className="bg-red-500 absolute top-1 bottom-1 left-1 right-1" />,
+          container
+        )
+      : null;
+  }
+);
