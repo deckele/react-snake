@@ -1,3 +1,13 @@
+# React Snake!
+
+- Queue based commands - you can queue up your next move.
+- Works on mobile, support for touch controls.
+
+## movement:
+
+use w a s d, and arrow keys to move.
+Supports swipes on touch screen devices.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
