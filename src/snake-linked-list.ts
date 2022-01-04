@@ -10,24 +10,18 @@ export class SnakeNode {
 
 // a reverse linked list, tail leading to head through next links
 export class SnakeLinkedList {
-  static from(
-    snakeLike: SnakeLinkedList | SnakeNode[] = [],
-    onCollision: () => void = () => {}
-  ) {
+  static from(snakeLike: SnakeLinkedList | SnakeNode[] = []) {
     let nodes = snakeLike as SnakeNode[];
     if (snakeLike instanceof SnakeLinkedList) {
       nodes = [...snakeLike];
-      onCollision = snakeLike.onCollision;
     }
-    const snakeLinkedList = new SnakeLinkedList(onCollision);
+    const snakeLinkedList = new SnakeLinkedList();
     nodes.forEach((node) => snakeLinkedList.addToHead(node));
     return snakeLinkedList;
   }
   hash: Record<string, SnakeNode> = {};
   head?: SnakeNode | null = null;
   tail?: SnakeNode | null = null;
-
-  constructor(public onCollision: () => void) {}
 
   *[Symbol.iterator]() {
     let tail = this.tail;
@@ -39,7 +33,6 @@ export class SnakeLinkedList {
 
   addToHead(link: SnakeNode) {
     if (this.hash[link.toString()]) {
-      this.onCollision();
       return;
     }
     this.hash[link.toString()] = link;
@@ -54,8 +47,12 @@ export class SnakeLinkedList {
   popTail() {
     if (!this.tail) return;
     const tail = this.tail;
+    if (this.head === tail) {
+      this.head = null;
+      this.tail = null;
+    }
     this.tail = tail?.next;
-    if (this.head === tail) this.head = null;
+    delete tail.next;
     delete this.hash[tail.toString()];
     return tail;
   }

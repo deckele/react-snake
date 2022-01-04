@@ -20,7 +20,11 @@ const SNAKE_INITIAL_NODES = [
   new SnakeNode([1, STARTING_Y]),
   new SnakeNode([2, STARTING_Y]),
 ];
-export function GameShell() {
+
+interface GameShellProps {
+  nextGame: () => void;
+}
+export function GameShell({ nextGame }: GameShellProps) {
   const forceUpdate = useForceUpdate();
   const gameLoop = useRef<NodeJS.Timer | null>();
   const direction = useRef(Direction.right);
@@ -55,15 +59,17 @@ export function GameShell() {
   }, [setAvailableCoordinatesForApple]);
 
   const handleCollision = useCallback(() => {
-    console.log("collision!");
-  }, []);
+    gameLoop.current && clearInterval(gameLoop.current);
+    document.onkeydown = () => {
+      nextGame();
+    };
+  }, [nextGame]);
 
   useEffect(() => {
     document.onkeydown = (e) => {
       const nextDirection = keyToDirection[e.key];
       if (canGoToNextDirection(direction.current, nextDirection)) {
         moveQueue.current.push(nextDirection);
-        console.log("queued direction: ", nextDirection);
         direction.current = nextDirection;
       }
     };
@@ -95,6 +101,10 @@ export function GameShell() {
           return;
         }
         const newCoordinate = [x, y] as Coordinate;
+        if (snake.current?.hash[hashXY(newCoordinate)]) {
+          handleCollision();
+          return;
+        }
         const newNode = new SnakeNode(newCoordinate);
         snake.current?.addToHead(newNode);
         if (snakeGrowth.current === 0) {
@@ -122,11 +132,7 @@ export function GameShell() {
   return (
     <>
       <Board size={config.boardSize} />
-      <Snake
-        onCollision={handleCollision}
-        initialNodes={SNAKE_INITIAL_NODES}
-        ref={snake}
-      />
+      <Snake initialNodes={SNAKE_INITIAL_NODES} ref={snake} />
       <Apple
         availableCoordinates={availableCoordinatesForApple.current}
         ref={apple}
