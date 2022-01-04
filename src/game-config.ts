@@ -1,5 +1,5 @@
 export const config = {
   boardSize: 10,
   snakeMoveRateMs: 250,
-  nodeGrowthFromApples: 2,
+  nodeGrowthFromApples: 3,
 };

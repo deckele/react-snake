@@ -131,6 +131,7 @@ export function GameShell({ nextGame }: GameShellProps) {
 
   return (
     <>
+      <h4 className="ml-4 mt-4">Score: {snake.current?.length ?? 0}</h4>
       <Board size={config.boardSize} />
       <Snake initialNodes={SNAKE_INITIAL_NODES} ref={snake} />
       <Apple
