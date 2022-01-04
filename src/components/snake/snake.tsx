@@ -5,14 +5,17 @@ import { SnakeLink } from "../snake-link/snake-link";
 
 interface SnakeProps {
   initialNodes: SnakeNode[];
+  onCollision: () => void;
 }
 
 export const Snake = forwardRef<SnakeLinkedList | null, SnakeProps>(
-  ({ initialNodes }: SnakeProps, ref) => {
+  ({ initialNodes, onCollision }: SnakeProps, ref) => {
     const [snake, setSnake] = useState<SnakeLinkedList | null>(null);
     useLayoutEffect(() => {
-      setSnake(SnakeLinkedList.from(initialNodes, () => {}));
-    }, [initialNodes]);
+      setSnake((prevSnake) =>
+        SnakeLinkedList.from(prevSnake || initialNodes, onCollision)
+      );
+    }, [initialNodes, onCollision]);
     useImperativeHandle<SnakeLinkedList | null, SnakeLinkedList | null>(
       ref,
       () => snake,

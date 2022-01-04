@@ -1,3 +1,5 @@
+import { Coordinate } from "./types";
+
 export enum Direction {
   up = 0,
   down = 1,

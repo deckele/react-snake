@@ -22,7 +22,7 @@ export class SnakeLinkedList {
     nodes.forEach((node) => snakeLinkedList.addToHead(node));
     return snakeLinkedList;
   }
-  #hash: Record<string, SnakeNode> = {};
+  hash: Record<string, SnakeNode> = {};
   head?: SnakeNode | null = null;
   tail?: SnakeNode | null = null;
 
@@ -37,11 +37,11 @@ export class SnakeLinkedList {
   }
 
   addToHead(link: SnakeNode) {
-    if (this.#hash[link.toString()]) {
+    if (this.hash[link.toString()]) {
       this.onCollision();
       return;
     }
-    this.#hash[link.toString()] = link;
+    this.hash[link.toString()] = link;
     if (!this.head) {
       this.head = link;
       this.tail = link;
@@ -55,7 +55,7 @@ export class SnakeLinkedList {
     const tail = this.tail;
     this.tail = tail?.next;
     if (this.head === tail) this.head = null;
-    delete this.#hash[tail.toString()];
+    delete this.hash[tail.toString()];
     return tail;
   }
 }
