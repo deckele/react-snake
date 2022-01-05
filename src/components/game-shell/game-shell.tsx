@@ -88,10 +88,14 @@ export function GameShell({ nextGame }: GameShellProps) {
       const { clientX, clientY } = e.changedTouches[0];
       const [x, y] = touchStart.current;
       const [dx, dy] = [clientX - x, clientY - y];
-      if (dx > 5 && dx > dy) handleMoveInput(Direction.right);
-      if (dx < -5 && dx < dy) handleMoveInput(Direction.left);
-      if (dy > 5 && dy > dx) handleMoveInput(Direction.down);
-      if (dy < 5 && dy < dx) handleMoveInput(Direction.up);
+      if (dx > config.touchSensitivity && dx > dy)
+        handleMoveInput(Direction.right);
+      else if (dx < -config.touchSensitivity && dx < dy)
+        handleMoveInput(Direction.left);
+      else if (dy > config.touchSensitivity && dy > dx)
+        handleMoveInput(Direction.down);
+      else if (dy < -config.touchSensitivity && dy < dx)
+        handleMoveInput(Direction.up);
     };
     document.addEventListener("touchmove", preventDefault, { passive: false });
     return () => document.removeEventListener("touchmove", preventDefault);
