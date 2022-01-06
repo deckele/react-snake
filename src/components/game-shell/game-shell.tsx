@@ -79,18 +79,8 @@ export function GameShell({ nextGame }: GameShellProps) {
         direction.current = nextDirection;
       }
     }
-    function preventDefault(e: Event) {
+    function handleTouchMove(e: TouchEvent) {
       e.preventDefault();
-    }
-    document.onkeydown = (e) => {
-      const nextDirection = keyToDirection[e.key];
-      handleMoveInput(nextDirection);
-    };
-    document.ontouchstart = (e) => {
-      const { clientX, clientY } = e.touches[0];
-      touchStart.current = [clientX, clientY];
-    };
-    document.ontouchend = (e) => {
       if (!touchStart.current) return;
       const { clientX, clientY } = e.changedTouches[0];
       const [x, y] = touchStart.current;
@@ -103,9 +93,20 @@ export function GameShell({ nextGame }: GameShellProps) {
         handleMoveInput(Direction.down);
       else if (dy < -config.touchSensitivity && dy < dx)
         handleMoveInput(Direction.up);
+      else return;
+      touchStart.current = [clientX, clientY];
+    }
+    document.onkeydown = (e) => {
+      const nextDirection = keyToDirection[e.key];
+      handleMoveInput(nextDirection);
     };
-    document.addEventListener("touchmove", preventDefault, { passive: false });
-    return () => document.removeEventListener("touchmove", preventDefault);
+    document.ontouchstart = (e) => {
+      const { clientX, clientY } = e.touches[0];
+      touchStart.current = [clientX, clientY];
+    };
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    return () => document.removeEventListener("touchmove", handleTouchMove);
   }, []);
 
   useEffect(() => {
@@ -168,7 +169,7 @@ export function GameShell({ nextGame }: GameShellProps) {
   }, [forceUpdate, handleCollision, setAvailableCoordinatesForApple]);
 
   return (
-    <div className="relative inline-block p-4">
+    <div className="pointer-events-none relative inline-block p-4">
       <div className="px-4 pb-4 w-full flex justify-between">
         <h4>Score: {snake.current?.length ?? 0}</h4>
         <h4>Highscore: {highscore}</h4>
