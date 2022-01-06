@@ -20,16 +20,16 @@ export function SnakeLink({ node, direction, isHead, isEven }: SnakeLinkProps) {
   const SnakeNode = isHead ? (
     <div
       id={getSnakeTile(node.coordiate)}
-      className="absolute inset-px flex justify-center items-center"
+      className="absolute inset-0 flex justify-center items-center"
     >
-      <SnakeHead className={`${directionToRotation[direction]} scale-125`} />
+      <SnakeHead className={`${directionToRotation[direction]}`} />
     </div>
   ) : (
     <div
       id={getSnakeTile(node.coordiate)}
       className={`${
         isEven ? "bg-green-500" : "bg-green-700"
-      } absolute inset-px rounded-lg scale-110`}
+      } absolute inset-0 rounded-lg border-2 scale-105 border-black`}
     />
   );
 
