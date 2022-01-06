@@ -25,7 +25,7 @@ export const Snake = forwardRef<SnakeLinkedList | null, SnakeProps>(
         {snake
           ? [...snake].map((node, i) => (
               <SnakeLink
-                key={node.toString()}
+                key={node === snake.head ? "head" : node.toString()}
                 node={node}
                 direction={direction}
                 isHead={node === snake.head}

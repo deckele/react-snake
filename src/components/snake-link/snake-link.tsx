@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { SnakeNode } from "../../snake-linked-list";
 import { Direction, getBoardTile, getSnakeTile } from "../../utils";
-import { ReactComponent as SnakeHead } from "../../assets/snake-head.svg";
+import SnakeHead from "../../assets/snake-head.png";
 
 interface SnakeLinkProps {
   node: SnakeNode;
@@ -20,9 +20,13 @@ export function SnakeLink({ node, direction, isHead, isEven }: SnakeLinkProps) {
   const SnakeNode = isHead ? (
     <div
       id={getSnakeTile(node.coordiate)}
-      className="absolute inset-0 flex justify-center items-center"
+      className="absolute -inset-2 flex justify-center items-center"
     >
-      <SnakeHead className={`${directionToRotation[direction]}`} />
+      <img
+        src={SnakeHead}
+        alt="snake-head"
+        className={`${directionToRotation[direction]}`}
+      />
     </div>
   ) : (
     <div
