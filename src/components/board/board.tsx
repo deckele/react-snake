@@ -18,7 +18,7 @@ export function Board({ size }: BoardProps) {
   }, [size]);
   return (
     <div
-      className={`w-96 h-96 p-4 grid grid-cols-[repeat(var(--board-size),_1fr)] gap-1`}
+      className={`w-96 h-96 grid grid-cols-[repeat(var(--board-size),_1fr)] gap-1`}
     >
       {board}
     </div>

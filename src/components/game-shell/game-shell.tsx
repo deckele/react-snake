@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SnakeLinkedList, SnakeNode } from "../../snake-linked-list";
 import { Board } from "../board/board";
 import { Snake } from "../snake/snake";
@@ -20,12 +20,16 @@ const SNAKE_INITIAL_NODES = [
   new SnakeNode([1, STARTING_Y]),
   new SnakeNode([2, STARTING_Y]),
 ];
+const HIGHSCORE = "highscore";
 
 interface GameShellProps {
   nextGame: () => void;
 }
 export function GameShell({ nextGame }: GameShellProps) {
   const forceUpdate = useForceUpdate();
+  const [highscore] = useState(() =>
+    Number(localStorage.getItem(HIGHSCORE) ?? 0)
+  );
   const gameLoop = useRef<NodeJS.Timer | null>();
   const direction = useRef(Direction.right);
   const moveQueue = useRef([] as Direction[]);
@@ -57,6 +61,9 @@ export function GameShell({ nextGame }: GameShellProps) {
 
   const handleCollision = useCallback(() => {
     gameLoop.current && clearInterval(gameLoop.current);
+    const score = snake.current?.length ?? 0;
+    const highscore = Number(localStorage.getItem(HIGHSCORE) ?? 0);
+    if (score > highscore) localStorage.setItem(HIGHSCORE, String(score));
     document.onkeydown = () => {
       nextGame();
     };
@@ -161,14 +168,17 @@ export function GameShell({ nextGame }: GameShellProps) {
   }, [forceUpdate, handleCollision, setAvailableCoordinatesForApple]);
 
   return (
-    <>
-      <h4 className="ml-4 mt-4">Score: {snake.current?.length ?? 0}</h4>
+    <div className="relative inline-block p-4">
+      <div className="px-4 pb-4 w-full flex justify-between">
+        <h4>Score: {snake.current?.length ?? 0}</h4>
+        <h4>Highscore: {highscore}</h4>
+      </div>
       <Board size={config.boardSize} />
       <Snake initialNodes={SNAKE_INITIAL_NODES} ref={snake} />
       <Apple
         availableCoordinates={availableCoordinatesForApple.current}
         ref={apple}
       />
-    </>
+    </div>
   );
 }
