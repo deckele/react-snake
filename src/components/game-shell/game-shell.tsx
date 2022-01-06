@@ -31,7 +31,8 @@ export function GameShell({ nextGame }: GameShellProps) {
     Number(localStorage.getItem(HIGHSCORE) ?? 0)
   );
   const gameLoop = useRef<NodeJS.Timer | null>();
-  const direction = useRef(Direction.right);
+  const directionInQueue = useRef(Direction.right);
+  const snakeDirection = useRef(Direction.right);
   const moveQueue = useRef([] as Direction[]);
   const snake = useRef<SnakeLinkedList | null>(null);
   const apple = useRef<Coordinate | null>(null);
@@ -74,9 +75,9 @@ export function GameShell({ nextGame }: GameShellProps) {
 
   useEffect(() => {
     function handleMoveInput(nextDirection: Direction) {
-      if (canGoToNextDirection(direction.current, nextDirection)) {
+      if (canGoToNextDirection(directionInQueue.current, nextDirection)) {
         moveQueue.current.push(nextDirection);
-        direction.current = nextDirection;
+        directionInQueue.current = nextDirection;
       }
     }
     function handleTouchMove(e: TouchEvent) {
@@ -114,7 +115,9 @@ export function GameShell({ nextGame }: GameShellProps) {
       gameLoop.current = setInterval(() => {
         if (!availableCoordinatesForApple.current)
           setAvailableCoordinatesForApple();
-        const nextDirection = moveQueue.current.shift() ?? direction.current;
+        const nextDirection =
+          moveQueue.current.shift() ?? directionInQueue.current;
+        snakeDirection.current = nextDirection;
         let [x, y] = nextSnakeNode.current.coordiate;
         switch (nextDirection) {
           case Direction.up:
@@ -175,7 +178,11 @@ export function GameShell({ nextGame }: GameShellProps) {
         <h4>Highscore: {highscore}</h4>
       </div>
       <Board size={config.boardSize} />
-      <Snake initialNodes={SNAKE_INITIAL_NODES} ref={snake} />
+      <Snake
+        initialNodes={SNAKE_INITIAL_NODES}
+        direction={snakeDirection.current}
+        ref={snake}
+      />
       <Apple
         availableCoordinates={availableCoordinatesForApple.current}
         ref={apple}
