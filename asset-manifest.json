@@ -1,15 +1,25 @@
 {
   "files": {
-    "main.css": "/react-snake/static/css/main.01aee754.css",
-    "main.js": "/react-snake/static/js/main.8d5badc7.js",
+    "main.css": "/react-snake/static/css/main.406bdf4c.css",
+    "main.js": "/react-snake/static/js/main.dd314696.js",
     "static/js/787.39710acc.chunk.js": "/react-snake/static/js/787.39710acc.chunk.js",
+    "static/media/apple9.svg": "/react-snake/static/media/apple9.6c2af0f8e5980493f0b53667c13acacc.svg",
+    "static/media/apple1.svg": "/react-snake/static/media/apple1.047f10c6fd2853fabfcef36cbeadc26d.svg",
+    "static/media/apple4.svg": "/react-snake/static/media/apple4.630ccfe028c40c079eb47b501d4046ce.svg",
+    "static/media/apple5.svg": "/react-snake/static/media/apple5.508c0425dc30e75524d0c6e7aa44a8a6.svg",
+    "static/media/apple8.svg": "/react-snake/static/media/apple8.4cdf71fe142b92e0bb46f1c0cc94056b.svg",
+    "static/media/apple3.svg": "/react-snake/static/media/apple3.94c340d17bfd5eebe4ae32ccb0f1c325.svg",
+    "static/media/apple10.svg": "/react-snake/static/media/apple10.a7623bac9355b2ce84ddea7a39901bab.svg",
+    "static/media/apple2.svg": "/react-snake/static/media/apple2.7539c0ebb99a4d53813a231c8f2bf99c.svg",
+    "static/media/apple6.svg": "/react-snake/static/media/apple6.984e9ac304afbf72869f02c587a0162c.svg",
+    "static/media/apple7.svg": "/react-snake/static/media/apple7.477b7fe9190a4e6faa7279ff24f75d39.svg",
     "index.html": "/react-snake/index.html",
-    "main.01aee754.css.map": "/react-snake/static/css/main.01aee754.css.map",
-    "main.8d5badc7.js.map": "/react-snake/static/js/main.8d5badc7.js.map",
+    "main.406bdf4c.css.map": "/react-snake/static/css/main.406bdf4c.css.map",
+    "main.dd314696.js.map": "/react-snake/static/js/main.dd314696.js.map",
     "787.39710acc.chunk.js.map": "/react-snake/static/js/787.39710acc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.01aee754.css",
-    "static/js/main.8d5badc7.js"
+    "static/css/main.406bdf4c.css",
+    "static/js/main.dd314696.js"
   ]
 }
