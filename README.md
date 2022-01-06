@@ -7,6 +7,6 @@
 
 ## movement:
 
-use: w a s d, and arrow keys to move.
+Keyboard: w a s d, or arrow keys to move.
 
-Supports swipes on touch screen devices.
+Touch: swipe motion support.
