@@ -169,8 +169,8 @@ export function GameShell({ nextGame }: GameShellProps) {
   }, [forceUpdate, handleCollision, setAvailableCoordinatesForApple]);
 
   return (
-    <div className="pointer-events-none relative inline-block p-4">
-      <div className="px-4 pb-4 w-full flex justify-between">
+    <>
+      <div className="px-8 pt-4 w-96 flex justify-between">
         <h4>Score: {snake.current?.length ?? 0}</h4>
         <h4>Highscore: {highscore}</h4>
       </div>
@@ -180,6 +180,6 @@ export function GameShell({ nextGame }: GameShellProps) {
         availableCoordinates={availableCoordinatesForApple.current}
         ref={apple}
       />
-    </div>
+    </>
   );
 }
