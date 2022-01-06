@@ -25,7 +25,7 @@ export const Apple = forwardRef<Coordinate | null, AppleProps>(
       coordinate && document.getElementById(getBoardTile(coordinate));
     return container
       ? createPortal(
-          <div className="bg-red-500 absolute top-1 bottom-1 left-1 right-1" />,
+          <div className="bg-red-500 absolute inset-px" />,
           container
         )
       : null;

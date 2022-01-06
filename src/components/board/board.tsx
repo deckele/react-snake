@@ -17,9 +17,7 @@ export function Board({ size }: BoardProps) {
     document.documentElement.style.setProperty("--board-size", String(size));
   }, [size]);
   return (
-    <div
-      className={`w-96 h-96 grid grid-cols-[repeat(var(--board-size),_1fr)] gap-1`}
-    >
+    <div className="touch-none w-96 h-96 grid grid-cols-[repeat(var(--board-size),_1fr)] gap-1">
       {board}
     </div>
   );

@@ -11,7 +11,7 @@ export function SnakeLink({ node }: SnakeLinkProps) {
     ? createPortal(
         <div
           id={getSnakeTile(node.coordiate)}
-          className="bg-purple-500 absolute top-1 bottom-1 left-1 right-1"
+          className="bg-purple-500 absolute inset-px"
         />,
         container
       )
